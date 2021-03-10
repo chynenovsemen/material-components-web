@@ -66,7 +66,13 @@ $z-index: 2;
   $rtl-reflexive: false,
   $query: feature-targeting.all()
 ) {
-  .mdc-tooltip__surface {
+  .mdc-tooltip__surface,
+  .mdc-tooltip__surface-caret {
+    @include shape-mixins.radius($radius, $rtl-reflexive, $query: $query);
+  }
+
+  .mdc-tooltip__caret-top,
+  .mdc-tooltip__caret-bottom {
     @include shape-mixins.radius($radius, $rtl-reflexive, $query: $query);
   }
 }
@@ -86,7 +92,8 @@ $z-index: 2;
   $feat-structure: feature-targeting.create-target($query, structure);
 
   @include feature-targeting.targets($feat-structure) {
-    .mdc-tooltip__surface {
+    .mdc-tooltip__surface,
+    .mdc-tooltip__surface-caret {
       @include css.declaration(
         word-break,
         $value,
@@ -102,7 +109,8 @@ $z-index: 2;
 @mixin label-ink-color($color, $query: feature-targeting.all()) {
   $feat-color: feature-targeting.create-target($query, color);
   @include feature-targeting.targets($feat-color) {
-    .mdc-tooltip__surface {
+    .mdc-tooltip__surface,
+    .mdc-tooltip__surface-caret {
       @include theme.property(color, $color);
     }
   }
@@ -141,7 +149,8 @@ $z-index: 2;
 // @param {Color | String} $color
 @mixin fill-color($color, $query: feature-targeting.all()) {
   $feat-color: feature-targeting.create-target($query, color);
-  .mdc-tooltip__surface {
+  .mdc-tooltip__surface,
+  .mdc-tooltip__surface-caret {
     @include feature-targeting.targets($feat-color) {
       @include theme.property(background-color, $color);
     }
@@ -153,7 +162,15 @@ $z-index: 2;
 @mixin rich-fill-color($color, $query: feature-targeting.all()) {
   $feat-color: feature-targeting.create-target($query, color);
   &.mdc-tooltip--rich {
-    .mdc-tooltip__surface {
+    .mdc-tooltip__surface,
+    .mdc-tooltip__surface-caret {
+      @include feature-targeting.targets($feat-color) {
+        @include theme.property(background-color, $color);
+      }
+    }
+
+    .mdc-tooltip__caret-top,
+    .mdc-tooltip__caret-bottom {
       @include feature-targeting.targets($feat-color) {
         @include theme.property(background-color, $color);
       }
@@ -179,7 +196,8 @@ $z-index: 2;
   $feat-animation: feature-targeting.create-target($query, animation);
 
   @include feature-targeting.targets($feat-animation) {
-    .mdc-tooltip--showing-transition .mdc-tooltip__surface {
+    .mdc-tooltip--showing-transition .mdc-tooltip__surface,
+    .mdc-tooltip--showing-transition .mdc-tooltip__caret-wrapper {
       transition: animation-functions.enter(opacity, $enter-duration),
         animation-functions.enter(transform, $enter-duration);
     }
@@ -192,7 +210,8 @@ $z-index: 2;
   $feat-animation: feature-targeting.create-target($query, animation);
 
   @include feature-targeting.targets($feat-animation) {
-    .mdc-tooltip--hide-transition .mdc-tooltip__surface {
+    .mdc-tooltip--hide-transition .mdc-tooltip__surface,
+    .mdc-tooltip--hide-transition .mdc-tooltip__caret-wrapper {
       transition: animation-functions.exit-permanent(opacity, $exit-duration);
     }
   }

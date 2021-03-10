@@ -49,6 +49,7 @@ $_rich_padding: 8px;
 $_content-margin-x: 8px;
 $_content-type-scale: body2;
 $_title-type-scale: subtitle2;
+$_caret-size: 24px;
 
 @mixin core-styles($query: feature-targeting.all()) {
   $feat-structure: feature-targeting.create-target($query, structure);
@@ -124,7 +125,8 @@ $_title-type-scale: subtitle2;
     }
   }
 
-  .mdc-tooltip__surface {
+  .mdc-tooltip__surface,
+  .mdc-tooltip__surface-caret {
     @include typography.typography(
       $_label-type-scale,
       $exclude-props: (line-height),
@@ -141,10 +143,6 @@ $_title-type-scale: subtitle2;
       box-sizing: border-box;
       overflow: hidden;
       text-align: center;
-      transform: scale(0.8);
-      opacity: 0;
-      will-change: transform, opacity;
-      outline: 1px solid transparent;
     }
 
     .mdc-tooltip--rich & {
@@ -171,19 +169,6 @@ $_title-type-scale: subtitle2;
           /* @noflip */
           text-align: right;
         }
-      }
-    }
-
-    .mdc-tooltip--shown & {
-      @include feature-targeting.targets($feat-structure) {
-        transform: scale(1);
-        opacity: 1;
-      }
-    }
-
-    .mdc-tooltip--hide & {
-      @include feature-targeting.targets($feat-structure) {
-        transform: scale(1);
       }
     }
 
@@ -222,6 +207,49 @@ $_title-type-scale: subtitle2;
       @include feature-targeting.targets($feat-structure) {
         text-decoration: none;
       }
+    }
+  }
+
+  .mdc-tooltip__surface,
+  .mdc-tooltip__caret-wrapper {
+    @include feature-targeting.targets($feat-structure) {
+      transform: scale(0.8);
+      opacity: 0;
+      will-change: transform, opacity;
+      outline: 1px solid transparent;
+    }
+
+    .mdc-tooltip--shown & {
+      @include feature-targeting.targets($feat-structure) {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .mdc-tooltip--hide & {
+      @include feature-targeting.targets($feat-structure) {
+        transform: scale(1);
+      }
+    }
+  }
+
+  .mdc-tooltip__caret-top,
+  .mdc-tooltip__caret-bottom {
+    @include feature-targeting.targets($feat-structure) {
+      position: absolute;
+      width: $_caret-size;
+      height: $_caret-size;
+      bottom: 0;
+      right: 24px;
+      transform: rotate(-45deg);
+      transform-origin: bottom right;
+    }
+  }
+
+  .mdc-tooltip__caret-bottom {
+    @include elevation-mixins.elevation(2, $query: $query);
+    @include feature-targeting.targets($feat-structure) {
+      z-index: -1;
     }
   }
 }
